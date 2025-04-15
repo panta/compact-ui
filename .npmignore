@@ -1,0 +1,10 @@
+# system files
+._*
+.DS_Store
+
+# backup files
+*.bak
+*~
+
+# private stuff
+/private/

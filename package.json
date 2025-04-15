@@ -1,0 +1,40 @@
+{
+  "name": "compact-ui-css",
+  "version": "1.0.0",
+  "description": "A modern, elegant, and space-efficient CSS framework for creating compact dashboards",
+  "main": "dist/compact-ui.css",
+  "style": "dist/compact-ui.css",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist && cp src/compact-ui.css dist/compact-ui.css && npx postcss dist/compact-ui.css -o dist/compact-ui.min.css --use cssnano",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/panta/compact-ui.git"
+  },
+  "keywords": [
+    "css",
+    "framework",
+    "dashboard",
+    "ui",
+    "compact",
+    "responsive",
+    "lightweight"
+  ],
+  "author": "Marco Pantaleoni <238501+panta@users.noreply.github.com>",
+  "license": "GPL-2.0-only",
+  "bugs": {
+    "url": "https://github.com/panta/compact-ui/issues"
+  },
+  "homepage": "https://github.com/panta/compact-ui#readme",
+  "devDependencies": {
+    "cssnano": "^5.1.15",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0"
+  }
+}

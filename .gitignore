@@ -1,0 +1,19 @@
+# system files
+._*
+.DS_Store
+
+# backup files
+*.bak
+*~
+
+# private stuff
+/private/
+
+# node/npm packages
+/node_modules/
+
+# build artifacts
+/dist/
+
+# npm packs
+/compact-ui-css-*.*.*.tgz
