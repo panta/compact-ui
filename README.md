@@ -164,18 +164,163 @@ const isDarkMode = document.body.classList.contains('dark-mode');
 
 ### Dashboard Layout
 
+#### Dashboard Layout - Sidebar
+
 ```html
-<div class="dashboard">
+<div class="dashboard sidebar-layout">
+  <!-- Sidebar -->
   <aside class="sidebar">
-    <!-- Sidebar content -->
+    <div class="sidebar-header">
+      <div class="sidebar-logo">CompactUI</div>
+    </div>
+    <ul class="sidebar-menu">
+      <li class="sidebar-menu-item">
+        <a href="#" class="sidebar-menu-link active">
+          <i class="sidebar-menu-icon fas fa-home"></i>
+          Dashboard
+        </a>
+      </li>
+      <!-- More menu items -->
+    </ul>
   </aside>
+
+  <!-- Header -->
   <header class="header">
     <!-- Header content -->
   </header>
+
+  <!-- Main Content -->
   <main class="main">
     <!-- Main content -->
   </main>
 </div>
+```
+
+#### Dashboard Layout - Top Navigation
+
+```html
+<div class="dashboard topnav-layout">
+  <!-- Top Navigation -->
+  <nav class="topnav">
+    <div class="topnav-logo">
+      <div class="topnav-logo-text">CompactUI</div>
+    </div>
+    <ul class="topnav-menu">
+      <li class="topnav-menu-item">
+        <a href="#" class="topnav-menu-link active">
+          <i class="topnav-menu-icon fas fa-home"></i>
+          Dashboard
+        </a>
+      </li>
+      <!-- More menu items -->
+    </ul>
+    <button class="topnav-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+
+  <!-- Header -->
+  <header class="header">
+    <!-- Header content -->
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Main content -->
+  </main>
+</div>
+```
+
+#### Switching Between Layouts
+
+##### JavaScript for Layout Switching
+
+```javascript
+// Function to switch layouts
+function switchLayout(layoutType) {
+  const dashboard = document.querySelector('.dashboard');
+  
+  // Remove existing layout classes
+  dashboard.classList.remove('sidebar-layout', 'topnav-layout');
+  
+  // Add the selected layout class
+  dashboard.classList.add(`${layoutType}-layout`);
+  
+  // Save preference to localStorage
+  localStorage.setItem('preferredLayout', layoutType);
+}
+
+// Load user's preferred layout
+document.addEventListener('DOMContentLoaded', () => {
+  const preferredLayout = localStorage.getItem('preferredLayout') || 'sidebar';
+  switchLayout(preferredLayout);
+  
+  // Add event listeners to layout toggle buttons
+  document.getElementById('sidebar-layout-toggle').addEventListener('click', () => {
+    switchLayout('sidebar');
+  });
+  
+  document.getElementById('topnav-layout-toggle').addEventListener('click', () => {
+    switchLayout('topnav');
+  });
+});
+```
+
+##### Adding Layout Toggle UI
+
+Add these buttons to your settings or preferences section:
+
+```html
+<div class="layout-toggles">
+  <button id="sidebar-layout-toggle" class="button button-secondary">
+    <i class="fas fa-columns button-icon"></i>
+    Sidebar Layout
+  </button>
+  <button id="topnav-layout-toggle" class="button button-secondary">
+    <i class="fas fa-bars button-icon"></i>
+    Top Navigation Layout
+  </button>
+</div>
+```
+
+#### Mobile Menu Implementations
+
+##### Mobile Toggle for Sidebar Layout
+
+```javascript
+// Toggle mobile sidebar
+document.querySelector('.sidebar-toggle').addEventListener('click', () => {
+  document.querySelector('.sidebar').classList.toggle('open');
+});
+```
+
+##### Mobile Toggle for Top Navigation Layout
+
+```javascript
+// Toggle mobile top navigation menu
+document.querySelector('.topnav-toggle').addEventListener('click', () => {
+  document.querySelector('.topnav-menu').classList.toggle('open');
+});
+```
+
+#### Dark Mode Integration
+
+Dark mode works with both layouts:
+
+```javascript
+// Toggle dark mode
+document.getElementById('theme-toggle').addEventListener('change', function() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+});
+
+// Load user's dark mode preference
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark-mode');
+    document.getElementById('theme-toggle').checked = true;
+  }
+});
 ```
 
 ### Cards
@@ -248,7 +393,7 @@ const isDarkMode = document.body.classList.contains('dark-mode');
 | `--color-primary-light`| `#5683f7`     | Lighter primary      |
 | `--color-primary-dark` | `#2954c8`     | Darker primary       |
 | `--color-bg`           | `#f9fafb`     | Background color     |
-| `--color-sidebar`      | `#ffffff`     | Sidebar background   |
+| `--color-nav-bg`       | `#ffffff`     | Sidebar/Navbar bg    |
 | `--color-card`         | `#ffffff`     | Card background      |
 | `--color-text-primary` | `#1f2937`     | Primary text color   |
 | `--color-success`      | `#10b981`     | Success color        |

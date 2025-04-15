@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compact Dashboard with Top Navigation</title>
+  <style>
+    :root {
+      /* Color Variables */
+      --color-primary: #3a6df0;
+      --color-primary-light: #5683f7;
+      --color-primary-dark: #2954c8;
+      --color-bg: #f9fafb;
+      --color-navbar: #ffffff;
+      --color-card: #ffffff;
+      --color-text-primary: #1f2937;
+      --color-text-secondary: #6b7280;
+      --color-text-tertiary: #9ca3af;
+      --color-border: #e5e7eb;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-danger: #ef4444;
+      --color-info: #3b82f6;
+
+      /* Spacing Variables */
+      --space-xxs: 0.125rem; /* 2px */
+      --space-xs: 0.25rem;   /* 4px */
+      --space-sm: 0.375rem;  /* 6px */
+      --space-md: 0.5rem;    /* 8px */
+      --space-lg: 0.75rem;   /* 12px */
+      --space-xl: 1rem;      /* 16px */
+
+      /* Typography Variables */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      --font-size-base: 0.5625rem;  /* 9px base */
+      --font-size-xs: 0.5rem;       /* 8px */
+      --font-size-sm: 0.625rem;     /* 10px */
+      --font-size-md: 0.6875rem;    /* 11px */
+      --font-size-lg: 0.75rem;      /* 12px */
+      --font-size-xl: 0.875rem;     /* 14px */
+      --font-size-xxl: 1rem;        /* 16px */
+      --line-height-tight: 1.2;
+      --line-height-normal: 1.4;
+      --font-weight-normal: 400;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+
+      /* Border Variables */
+      --border-radius-sm: 0.125rem; /* 2px */
+      --border-radius-md: 0.25rem;  /* 4px */
+      --border-radius-lg: 0.375rem; /* 6px */
+      --border-width: 1px;
+      
+      /* Shadow Variables */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      
+      /* Animation Variables */
+      --transition-fast: 150ms;
+      --transition-normal: 250ms;
+      
+      /* Layout Variables */
+      --navbar-height: 3rem;
+      --header-height: 2.5rem;
+      --card-min-height: 5rem;
+      --input-height: 1.75rem;
+      --button-height: 1.75rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg);
+    }
+
+    /* Dashboard Layout with Top Navbar */
+    .dashboard {
+      display: grid;
+      grid-template-rows: var(--navbar-height) var(--header-height) 1fr;
+      grid-template-areas:
+        "navbar"
+        "header"
+        "main";
+      height: 100vh;
+      width: 100%;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      grid-area: navbar;
+      background-color: var(--color-navbar);
+      border-bottom: var(--border-width) solid var(--color-border);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      margin-right: var(--space-xl);
+    }
+
+    .navbar-logo-text {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+
+    .navbar-menu {
+      display: flex;
+      list-style-type: none;
+      height: 100%;
+      flex-grow: 1;
+    }
+
+    .navbar-menu-item {
+      height: 100%;
+    }
+
+    .navbar-menu-link {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 var(--space-lg);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast), border-bottom var(--transition-fast);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      border-bottom: 2px solid transparent;
+    }
+
+    .navbar-menu-link:hover {
+      color: var(--color-primary);
+    }
+
+    .navbar-menu-link.active {
+      color: var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+    }
+
+    .navbar-menu-icon {
+      margin-right: var(--space-sm);
+      font-size: var(--font-size-md);
+    }
+
+    /* Header */
+    .header {
+      grid-area: header;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-lg);
+      background-color: var(--color-card);
+      border-bottom: var(--border-width) solid var(--color-border);
+    }
+
+    .header-search {
+      position: relative;
+      width: 12rem;
+    }
+
+    .header-search-input {
+      width: 100%;
+      height: var(--input-height);
+      padding: 0 var(--space-lg) 0 var(--space-xl);
+      border-radius: var(--border-radius-md);
+      border: var(--border-width) solid var(--color-border);
+      background-color: var(--color-bg);
+      font-size: var(--font-size-sm);
+    }
+
+    .header-search-icon {
+      position: absolute;
+      left: var(--space-xs);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-tertiary);
+      font-size: var(--font-size-md);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-nav-item {
+      position: relative;
+      margin-left: var(--space-md);
+    }
+
+    .header-nav-button {
+      background: none;
+      border: none;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      padding: var(--space-xs);
+      border-radius: var(--border-radius-md);
+      transition: background-color var(--transition-fast);
+    }
+
+    .header-nav-button:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    .header-user {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-user-avatar {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      margin-right: var(--space-xs);
+    }
+
+    .header-user-name {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* Main Content */
+    .main {
+      grid-area: main;
+      padding: var(--space-lg);
+      overflow-y: auto;
+    }
+
+    .page-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-lg);
+      color: var(--color-text-primary);
+    }
+
+    /* Card Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--color-card);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-md);
+      min-height: var(--card-min-height);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .card-title {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+
+    .card-menu {
+      color: var(--color-text-tertiary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-xxs);
+      border-radius: 50%;
+      transition: background-color var(--transition-fast);
+    }
+
+    .card-menu:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    .card-value {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-xs);
+    }
+
+    .card-label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
+    }
+
+    .card-trend {
+      display: flex;
+      align-items: center;
+      font-size: var(--font-size-xs);
+      margin-top: var(--space-xs);
+    }
+
+    .card-trend.up {
+      color: var(--color-success);
+    }
+
+    .card-trend.down {
+      color: var(--color-danger);
+    }
+
+    .card-trend-icon {
+      margin-right: var(--space-xxs);
+    }
+
+    /* Tables */
+    .table-container {
+      background-color: var(--color-card);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin-bottom: var(--space-lg);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th {
+      text-align: left;
+      padding: var(--space-md);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-secondary);
+      border-bottom: var(--border-width) solid var(--color-border);
+    }
+
+    .table td {
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-sm);
+      border-bottom: var(--border-width) solid var(--color-border);
+    }
+
+    .table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-status {
+      display: inline-block;
+      padding: var(--space-xxs) var(--space-xs);
+      border-radius: var(--border-radius-sm);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+    }
+
+    .table-status.success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--color-success);
+    }
+
+    .table-status.warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--color-warning);
+    }
+
+    .table-status.danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--color-danger);
+    }
+
+    /* Toggle Switch */
+    .theme-toggle {
+      position: relative;
+      display: inline-block;
+      width: 2rem;
+      height: 1rem;
+    }
+
+    .theme-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .theme-toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--color-border);
+      transition: var(--transition-normal);
+      border-radius: 1rem;
+    }
+
+    .theme-toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 0.75rem;
+      width: 0.75rem;
+      left: 0.125rem;
+      bottom: 0.125rem;
+      background-color: white;
+      transition: var(--transition-normal);
+      border-radius: 50%;
+    }
+
+    .theme-toggle input:checked + .theme-toggle-slider {
+      background-color: var(--color-primary);
+    }
+
+    .theme-toggle input:checked + .theme-toggle-slider:before {
+      transform: translateX(1rem);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .navbar-menu {
+        display: none;
+      }
+      
+      .navbar-menu.open {
+        display: flex;
+        position: absolute;
+        top: var(--navbar-height);
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: var(--color-navbar);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+      }
+      
+      .navbar-menu-item {
+        height: auto;
+      }
+      
+      .navbar-menu-link {
+        padding: var(--space-md);
+        border-bottom: var(--border-width) solid var(--color-border);
+      }
+      
+      .navbar-toggle {
+        display: block;
+      }
+      
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Dark Mode - Toggle by adding .dark-mode class to body */
+    .dark-mode {
+      --color-bg: #121826;
+      --color-navbar: #1a2234;
+      --color-card: #1a2234;
+      --color-text-primary: #e5e7eb;
+      --color-text-secondary: #9ca3af;
+      --color-text-tertiary: #6b7280;
+      --color-border: #2d3748;
+    }
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Top Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <div class="navbar-logo-text">CompactUI</div>
+      </div>
+      <ul class="navbar-menu">
+        <li class="navbar-menu-item">
+          <a href="#" class="navbar-menu-link active">
+            <i class="navbar-menu-icon fas fa-home"></i>
+            Dashboard
+          </a>
+        </li>
+        <li class="navbar-menu-item">
+          <a href="#" class="navbar-menu-link">
+            <i class="navbar-menu-icon fas fa-chart-line"></i>
+            Analytics
+          </a>
+        </li>
+        <li class="navbar-menu-item">
+          <a href="#" class="navbar-menu-link">
+            <i class="navbar-menu-icon fas fa-users"></i>
+            Customers
+          </a>
+        </li>
+        <li class="navbar-menu-item">
+          <a href="#" class="navbar-menu-link">
+            <i class="navbar-menu-icon fas fa-shopping-cart"></i>
+            Orders
+          </a>
+        </li>
+        <li class="navbar-menu-item">
+          <a href="#" class="navbar-menu-link">
+            <i class="navbar-menu-icon fas fa-cog"></i>
+            Settings
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-search">
+        <i class="header-search-icon fas fa-search"></i>
+        <input type="text" class="header-search-input" placeholder="Search...">
+      </div>
+      <div class="header-nav">
+        <div class="header-nav-item">
+          <button class="header-nav-button">
+            <i class="fas fa-bell"></i>
+          </button>
+        </div>
+        <div class="header-nav-item">
+          <label class="theme-toggle">
+            <input type="checkbox" id="theme-toggle">
+            <span class="theme-toggle-slider"></span>
+          </label>
+        </div>
+        <div class="header-nav-item">
+          <div class="header-user">
+            <img src="/api/placeholder/32/32" alt="User avatar" class="header-user-avatar">
+            <span class="header-user-name">Luca Bianchi</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <h1 class="page-title">Dashboard</h1>
+      
+      <!-- Stats Cards -->
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Revenue</div>
+            <button class="card-menu">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+          <div class="card-value">€ 32,240</div>
+          <div class="card-label">Total revenue this month</div>
+          <div class="card-trend up">
+            <i class="card-trend-icon fas fa-arrow-up"></i>
+            15.4% from last month
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Orders</div>
+            <button class="card-menu">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+          <div class="card-value">384</div>
+          <div class="card-label">Total orders this month</div>
+          <div class="card-trend up">
+            <i class="card-trend-icon fas fa-arrow-up"></i>
+            8.2% from last month
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Customers</div>
+            <button class="card-menu">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+          <div class="card-value">1,284</div>
+          <div class="card-label">Total customers</div>
+          <div class="card-trend up">
+            <i class="card-trend-icon fas fa-arrow-up"></i>
+            4.6% from last month
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Conversion</div>
+            <button class="card-menu">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+          <div class="card-value">3.2%</div>
+          <div class="card-label">Conversion rate</div>
+          <div class="card-trend down">
+            <i class="card-trend-icon fas fa-arrow-down"></i>
+            0.8% from last month
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Orders Table -->
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#ORD-871</td>
+              <td>Anna Schreiber</td>
+              <td>Apr 7, 2025</td>
+              <td>€175.30</td>
+              <td><span class="table-status success">Completed</span></td>
+            </tr>
+            <tr>
+              <td>#ORD-870</td>
+              <td>Jonas Bergström</td>
+              <td>Apr 6, 2025</td>
+              <td>€229.50</td>
+              <td><span class="table-status success">Completed</span></td>
+            </tr>
+            <tr>
+              <td>#ORD-869</td>
+              <td>Helena Mikkelsen</td>
+              <td>Apr 6, 2025</td>
+              <td>€320.00</td>
+              <td><span class="table-status warning">Processing</span></td>
+            </tr>
+            <tr>
+              <td>#ORD-868</td>
+              <td>Tomasz Kowalski</td>
+              <td>Apr 5, 2025</td>
+              <td>€123.50</td>
+              <td><span class="table-status success">Completed</span></td>
+            </tr>
+            <tr>
+              <td>#ORD-867</td>
+              <td>Sofia Moretti</td>
+              <td>Apr 5, 2025</td>
+              <td>€230.00</td>
+              <td><span class="table-status danger">Cancelled</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Toggle Dark Mode
+    document.getElementById('theme-toggle').addEventListener('change', function() {
+      document.body.classList.toggle('dark-mode');
+    });
+    
+    // Mobile menu toggle functionality would go here
+  </script>
+</body>
+</html>
